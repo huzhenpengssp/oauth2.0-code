@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.authorization.dao.CodeMapper" >
+  <resultMap id="BaseResultMap" type="com.authorization.domain.Code" >
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.authorization.domain.Code" extends="BaseResultMap" >
+    <result column="authentication" property="authentication" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Blob_Column_List" >
+    authentication
+  </sql>
+  <insert id="insert" parameterType="com.authorization.domain.Code" >
+    insert into oauth_code (code, authentication)
+    values (#{code,jdbcType=VARCHAR}, #{authentication,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.authorization.domain.Code" >
+    insert into oauth_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="authentication != null" >
+        authentication,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="authentication != null" >
+        #{authentication,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+</mapper>
